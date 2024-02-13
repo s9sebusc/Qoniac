@@ -1,0 +1,76 @@
+﻿<Window x:Class="CurrencyConverterClient.View"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CurrencyConverterClient"
+        mc:Ignorable="d"
+        Title="Currency converter" Height="250" Width="400" ResizeMode="NoResize">
+    
+    <!--Resources-->
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBox}" x:Key="WatermarkTextBoxStyle">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Setter Property="IsTabStop" Value="False"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Text, ElementName=CurrencyTextBox}" Value="">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+                <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.10*"/>
+            <ColumnDefinition Width="0.40*"/>
+            <ColumnDefinition Width="0.05*"/>
+            <ColumnDefinition Width="0.35*"/>
+            <ColumnDefinition Width="0.10*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.1*"/>
+        </Grid.RowDefinitions>
+      
+     
+        <!--Input currency amout -->
+        <Grid Grid.Column="1" Grid.Row="1"  Background="AliceBlue">
+            <local:CurrencyTextBox x:Name="CurrencyTextBox"
+                Grid.Column="1" Grid.Row="1"
+                Text="{Binding EnteredCurrencyAmount, UpdateSourceTrigger=PropertyChanged}"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Right"
+                 FontSize="18" FontStyle="Italic" Background="AliceBlue">
+            </local:CurrencyTextBox>
+
+            <!--Watermark text-->
+            <TextBox IsHitTestVisible="False"
+                     Text="Enter your value in X,XX format..." VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                     VerticalContentAlignment="Center" HorizontalContentAlignment="Right"
+                     Foreground="DarkGray" Background="AliceBlue"
+                     FontSize="10"
+                     Style="{StaticResource WatermarkTextBoxStyle}">
+            </TextBox>
+        </Grid>
+
+        <!--Convert button-->
+        <Button
+            Grid.Column="3" Grid.Row="1"
+            Content="Convert" Command="{Binding ConvertCommand}"
+            HorizontalAlignment="Stretch"
+            Background="AliceBlue" FontSize="18"/>
+
+        <!-- Conversion result-->
+        <Border Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" BorderBrush="Gray" BorderThickness="0.5">
+            <TextBlock Text="{Binding ConvertedCurrency, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" TextWrapping="Wrap" FontWeight="Bold"/>
+        </Border>
+
+
+    </Grid>
+</Window>
